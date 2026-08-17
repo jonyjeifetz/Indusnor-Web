@@ -322,7 +322,7 @@ export default function Home() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-slate-900 text-center text-xs text-slate-600">
-          © {new Date().getFullYear()} Indusnor. Todos los derechos reservados.
+          © 2026 por Jonathan Jeifetz
         </div>
       </footer>
     </div>
