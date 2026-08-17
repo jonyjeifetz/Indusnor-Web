@@ -297,7 +297,7 @@ export default function Home() {
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-blue-500" />
-                <span>contacto@indusnor.com.ar</span>
+                <span>Indusnorconstruye@gmail.com</span>
               </li>
               <li className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4 text-blue-500" />
