@@ -44,7 +44,7 @@ const PRODUCTS: Product[] = [
     name: "Puerta Seccional Industrial",
     category: "Naves Industriales",
     description: "Paneles de poliuretano expandido para aislamiento térmico, seguridad y cierre hermético.",
-    image: "/images/puerta.jpg",
+    image: "/images/puerta.png",
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const PRODUCTS: Product[] = [
     name: "Acople Ranurado 2\" UL/FM",
     category: "Redes Contra Incendio",
     description: "Conexión rápida y flexible para tuberías de redes contra incendio con homologación UL/FM.",
-    image: "/images/acople.jpg",
+    image: "/images/acople.png",
     badge: "UL / FM"
   },
   {
@@ -74,7 +74,7 @@ const PRODUCTS: Product[] = [
     name: "Macrofibra de Polipropileno",
     category: "Aditivos para Hormigón",
     description: "Refuerzo estructural para contrapisos, pavimentos e industrial flooring evitando fisuras.",
-    image: "/images/macrofibra.jpg",
+    image: "/images/macrofibra.png",
   }
 ];
 
