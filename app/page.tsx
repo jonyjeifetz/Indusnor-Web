@@ -78,6 +78,13 @@ const PRODUCTS: Product[] = [
   }
 ];
 
+const getWhatsAppUrl = (productName?: string) => {
+  const text = productName 
+    ? `Hola! Quisiera solicitar presupuesto y ficha técnica de: ${productName}` 
+    : `Hola! Quisiera realizar una consulta comercial sobre sus productos.`;
+  return `https://wa.me/5491125705184?text=${encodeURIComponent(text)}`;
+};
+
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [search, setSearch] = useState("");
@@ -85,65 +92,81 @@ export default function Home() {
 
   const categories = ["Todos", "Naves Industriales", "Redes Contra Incendio", "Aditivos para Hormigón"];
 
+  // Filtrado robusto tolerante a espacios y mayúsculas
   const filteredProducts = PRODUCTS.filter((p) => {
-    const matchesCategory = selectedCategory === "Todos" || p.category === selectedCategory;
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
-                          p.description.toLowerCase().includes(search.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const categoryMatch =
+      selectedCategory === "Todos" ||
+      p.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase();
+
+    const searchMatch =
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.description.toLowerCase().includes(search.toLowerCase());
+
+    return categoryMatch && searchMatch;
   });
 
-  const handleWhatsApp = (productName?: string) => {
-    const text = productName 
-      ? `Hola! Quisiera solicitar presupuesto y ficha técnica de: ${productName}` 
-      : `Hola! Quisiera realizar una consulta comercial sobre sus productos.`;
-    window.open(`https://wa.me/5491125705184?text=${encodeURIComponent(text)}`, "_blank");
-  };
-
-  const closeMobileMenu = () => {
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setMobileMenuOpen(false);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans" id="top">
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-32 sm:h-40 flex items-center justify-between py-2">
           <div className="flex items-center space-x-4">
-            <a href="#inicio" className="flex items-center">
+            <a 
+              href="#top" 
+              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
+              className="flex items-center cursor-pointer"
+            >
               <img 
                 src="/images/logo.png" 
                 alt="Indusnor Logo" 
-                className="h-14 sm:h-20 w-auto object-contain scale-110"
+                className="h-32 sm:h-44 w-auto object-contain"
               />
             </a>
-            <span className="text-xs text-slate-500 hidden lg:inline-block border-l pl-3 border-slate-300">
+            <span className="text-xs sm:text-sm text-slate-500 hidden lg:inline-block border-l pl-4 border-slate-300">
               Soluciones para Naves Industriales <br /> & Redes Contra Incendio
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8 font-medium text-slate-600 text-sm">
-            <a href="#inicio" className="hover:text-blue-600 transition-colors">Inicio</a>
-            <a href="#productos" className="hover:text-blue-600 transition-colors">Productos</a>
-            <a href="#nosotros" className="hover:text-blue-600 transition-colors">Nosotros</a>
-            <a href="#contacto" className="hover:text-blue-600 transition-colors">Contacto</a>
+          <nav className="hidden md:flex items-center space-x-8 font-medium text-slate-600 text-base">
+            <a 
+              href="#top" 
+              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
+              className="hover:text-blue-600 transition-colors cursor-pointer"
+            >
+              Inicio
+            </a>
+            <a href="#productos" className="hover:text-blue-600 transition-colors">
+              Productos
+            </a>
+            <a href="#contacto" className="hover:text-blue-600 transition-colors">
+              Contacto
+            </a>
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <button
-              onClick={() => handleWhatsApp()}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg flex items-center space-x-2 transition-all shadow-sm"
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-3 rounded-lg flex items-center space-x-2 transition-all shadow-sm"
             >
-              <WhatsAppIcon className="w-4 h-4" />
+              <WhatsAppIcon className="w-5 h-5" />
               <span>Cotizar por WhatsApp</span>
-            </button>
+            </a>
           </div>
 
           <button 
-            className="md:hidden text-slate-600 p-2"
+            type="button"
+            className="md:hidden text-slate-600 p-2 focus:outline-none"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
           </button>
         </div>
 
@@ -151,40 +174,36 @@ export default function Home() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
             <a 
-              href="#inicio" 
-              onClick={closeMobileMenu} 
+              href="#top"
+              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
               className="block text-slate-700 font-medium py-2 border-b border-slate-100"
             >
               Inicio
             </a>
             <a 
               href="#productos" 
-              onClick={closeMobileMenu} 
+              onClick={() => setMobileMenuOpen(false)} 
               className="block text-slate-700 font-medium py-2 border-b border-slate-100"
             >
               Productos
             </a>
             <a 
-              href="#nosotros" 
-              onClick={closeMobileMenu} 
-              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
-            >
-              Nosotros
-            </a>
-            <a 
               href="#contacto" 
-              onClick={closeMobileMenu} 
+              onClick={() => setMobileMenuOpen(false)} 
               className="block text-slate-700 font-medium py-2 border-b border-slate-100"
             >
               Contacto
             </a>
-            <button
-              onClick={() => { closeMobileMenu(); handleWhatsApp(); }}
-              className="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 mt-2"
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center space-x-2 mt-2"
             >
-              <WhatsAppIcon className="w-4 h-4" />
+              <WhatsAppIcon className="w-5 h-5" />
               <span>Cotizar por WhatsApp</span>
-            </button>
+            </a>
           </div>
         )}
       </header>
@@ -209,20 +228,22 @@ export default function Home() {
               >
                 Ver Catálogo de Productos
               </a>
-              <button
-                onClick={() => handleWhatsApp()}
+              <a
+                href={getWhatsAppUrl("Presupuesto General / Cotización por Volumen")}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-slate-800 hover:bg-slate-700 text-white text-center font-semibold px-6 py-3.5 rounded-lg border border-slate-700 transition-all flex items-center justify-center space-x-2"
               >
                 <FileText className="w-4 h-4 text-slate-400" />
                 <span>Solicitar Presupuesto</span>
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* Value Proposition Grid */}
-      <section id="nosotros" className="bg-white border-b border-slate-200 py-8">
+      <section className="bg-white border-b border-slate-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
             <ShieldCheck className="w-10 h-10 text-blue-600 flex-shrink-0" />
@@ -268,12 +289,14 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Botones de Categorías */}
         <div className="flex flex-wrap gap-2 mb-8">
           {categories.map((cat) => (
             <button
               key={cat}
+              type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer select-none ${
                 selectedCategory === cat
                   ? "bg-slate-900 text-white shadow-sm"
                   : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-100"
@@ -284,6 +307,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Grilla de Productos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((p) => (
             <div key={p.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
@@ -313,13 +337,15 @@ export default function Home() {
               </div>
 
               <div className="p-6 pt-0">
-                <button
-                  onClick={() => handleWhatsApp(p.name)}
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition-colors"
+                <a
+                  href={getWhatsAppUrl(p.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition-colors text-center"
                 >
                   <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
                   <span>Consultar Cotización por WhatsApp</span>
-                </button>
+                </a>
               </div>
             </div>
           ))}
@@ -336,13 +362,7 @@ export default function Home() {
       <footer id="contacto" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="inline-block bg-white p-2 rounded-lg mb-4">
-              <img 
-                src="/images/logo.png" 
-                alt="Indusnor Logo" 
-                className="h-16 w-auto object-contain"
-              />
-            </div>
+            <h3 className="text-2xl font-bold text-white tracking-wide mb-3">INDUSNOR</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               Soluciones integrales para naves industriales, logística y redes contra incendio. Venta directa y cobertura en toda la Argentina.
             </p>
@@ -353,7 +373,7 @@ export default function Home() {
             <ul className="space-y-3 text-xs">
               <li>
                 <a 
-                  href="https://wa.me/5491125705184" 
+                  href={getWhatsAppUrl()}
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center space-x-2.5 hover:text-emerald-400 transition-colors"
@@ -390,13 +410,15 @@ export default function Home() {
             <p className="text-xs text-slate-400 mb-4">
               ¿Tenés un pliego de condiciones o querés solicitar una cotización por volumen? Hablá directamente con nuestro equipo.
             </p>
-            <button
-              onClick={() => handleWhatsApp()}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center space-x-2 transition-colors"
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg items-center space-x-2 transition-colors"
             >
               <WhatsAppIcon className="w-4 h-4" />
               <span>Contactar Asesor Técnico</span>
-            </button>
+            </a>
           </div>
         </div>
 
