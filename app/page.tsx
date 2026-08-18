@@ -108,12 +108,12 @@ export default function Home() {
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <a href="#inicio" className="flex items-center">
               <img 
                 src="/images/logo.png" 
                 alt="Indusnor Logo" 
-                className="h-10 sm:h-12 object-contain"
+                className="h-14 sm:h-20 w-auto object-contain scale-110"
               />
             </a>
             <span className="text-xs text-slate-500 hidden lg:inline-block border-l pl-3 border-slate-300">
@@ -336,11 +336,13 @@ export default function Home() {
       <footer id="contacto" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <img 
-              src="/images/logo.png" 
-              alt="Indusnor Logo" 
-              className="h-10 object-contain mb-4 bg-white p-1.5 rounded"
-            />
+            <div className="inline-block bg-white p-2 rounded-lg mb-4">
+              <img 
+                src="/images/logo.png" 
+                alt="Indusnor Logo" 
+                className="h-16 w-auto object-contain"
+              />
+            </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Soluciones integrales para naves industriales, logística y redes contra incendio. Venta directa y cobertura en toda la Argentina.
             </p>
