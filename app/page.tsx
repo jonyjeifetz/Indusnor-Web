@@ -3,22 +3,30 @@
 import React, { useState } from "react";
 import { 
   Search, 
-  Phone, 
   Mail, 
   MapPin, 
   ShieldCheck, 
   Truck, 
   FileText, 
-  MessageCircle,
   Menu,
   X
 } from "lucide-react";
+
+// Icono Oficial de WhatsApp
+function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.486 1.332 5.006L2 22l5.127-1.336a9.981 9.981 0 004.885 1.321h.004c5.505 0 9.988-4.478 9.989-9.985 0-2.668-1.039-5.176-2.926-7.062A9.914 9.914 0 0012.012 2zm.004 18.171h-.003a8.31 8.31 0 01-4.237-1.163l-.304-.181-3.146.82.839-3.058-.198-.313a8.297 8.297 0 01-1.272-4.474c0-4.576 3.722-8.3 8.303-8.3 2.217 0 4.301.865 5.867 2.433 1.566 1.567 2.428 3.652 2.427 5.871 0 4.577-3.723 8.301-8.276 8.305zm4.551-6.216c-.25-.125-1.478-.729-1.707-.812-.229-.083-.396-.125-.562.125-.167.25-.646.812-.792.979-.146.166-.292.187-.542.062a6.837 6.837 0 01-2.012-1.238 7.55 7.55 0 01-1.393-1.733c-.146-.25 0-.381.119-.505.11-.114.25-.292.375-.438.125-.146.167-.25.25-.417.083-.166.042-.312-.021-.437-.063-.125-.562-1.354-.771-1.854-.204-.488-.413-.422-.563-.429-.142-.007-.304-.007-.466-.007s-.425.061-.647.302c-.222.241-.852.833-.852 2.031 0 1.199.873 2.355.996 2.521.123.167 1.718 2.623 4.161 3.678.581.25 1.035.399 1.389.512.584.185 1.116.159 1.536.096.468-.07 1.478-.604 1.687-1.188.208-.583.208-1.083.146-1.188-.063-.104-.229-.187-.479-.312z"/>
+    </svg>
+  );
+}
 
 interface Product {
   id: number;
   name: string;
   category: string;
   description: string;
+  image: string;
   badge?: string;
 }
 
@@ -27,40 +35,46 @@ const PRODUCTS: Product[] = [
     id: 1,
     name: "Rampa Hidráulica (Dock Leveler)",
     category: "Naves Industriales",
-    description: "Solución de nivelación para andenes de carga y descarga en depósitos industriales.",
+    description: "Solución de nivelación para andenes de carga y descarga en depósitos e industrias logísticas.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/rampa-hidraulica-11-c67d710d0a2db709ca17013589885141-1024-1024.jpg",
     badge: "Destacado"
   },
   {
     id: 2,
     name: "Puerta Seccional Industrial",
     category: "Naves Industriales",
-    description: "Aislamiento térmico y seguridad para accesos logísticos de alto tránsito.",
+    description: "Paneles de poliuretano expandido para aislamiento térmico, seguridad y cierre hermético.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/puerta-seccional-11-d0fb5f524771e1f72717013591605374-1024-1024.jpg",
   },
   {
     id: 3,
     name: "Sprinkler Victaulic V3403 Upright K11.2",
     category: "Redes Contra Incendio",
-    description: "Rociador automático con certificación UL/FM para protección industrial.",
+    description: "Rociador automático 68°C BSPT con certificaciones internacionales UL/FM para protección industrial.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/sprinkler-victaulic-11-825dfc42876800fa1b17013592837375-1024-1024.jpg",
     badge: "UL / FM"
   },
   {
     id: 4,
     name: "Acople Ranurado 2\" UL/FM",
     category: "Redes Contra Incendio",
-    description: "Conexión rápida y flexible para tuberías de sistemas contra incendio.",
+    description: "Conexión rápida y flexible para tuberías de redes contra incendio con homologación UL/FM.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/acople-ranurado-11-5a21ff46efaa8bf97317013594191986-1024-1024.jpg",
     badge: "UL / FM"
   },
   {
     id: 5,
     name: "Caños de Incendio IRAM 2502",
     category: "Redes Contra Incendio",
-    description: "Pintados de rojo y ranurados para fácil ensamblaje técnico.",
+    description: "Pintados de rojo y ranurados para fácil ensamblaje técnico en instalaciones de protección.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/canos-de-incendio-11-09a8ebfbcd59050dc517013595181775-1024-1024.jpg",
   },
   {
     id: 6,
     name: "Macrofibra de Polipropileno",
     category: "Aditivos para Hormigón",
-    description: "Refuerzo estructural para contrapisos, pavimentos e industrial flooring.",
+    description: "Refuerzo estructural para contrapisos, pavimentos e industrial flooring evitando fisuras.",
+    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/macrofibra-11-ea2fa7cf424269e80a17013596203112-1024-1024.jpg",
   }
 ];
 
@@ -85,16 +99,25 @@ export default function Home() {
     window.open(`https://wa.me/5491125705184?text=${encodeURIComponent(text)}`, "_blank");
   };
 
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
       {/* Header / Navbar */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-slate-900 text-white font-extrabold text-2xl tracking-wider px-3 py-1 rounded">
-              INDUSNOR
-            </div>
-            <span className="text-xs text-slate-500 hidden sm:inline-block border-l pl-3 border-slate-300">
+            <a href="#inicio" className="flex items-center">
+              {/* Logo Oficial de Indusnor */}
+              <img 
+                src="https://d26lpennug273w.cloudfront.net/stores/003/751/116/themes/common/logo-1721516246-1701358500-1c3902f5a013d508933b9f4e2f8ec55d1701358500.png" 
+                alt="Indusnor Logo" 
+                className="h-10 sm:h-12 object-contain"
+              />
+            </a>
+            <span className="text-xs text-slate-500 hidden lg:inline-block border-l pl-3 border-slate-300">
               Soluciones para Naves Industriales <br /> & Redes Contra Incendio
             </span>
           </div>
@@ -111,31 +134,56 @@ export default function Home() {
               onClick={() => handleWhatsApp()}
               className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2.5 rounded-lg flex items-center space-x-2 transition-all shadow-sm"
             >
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>Cotizar por WhatsApp</span>
             </button>
           </div>
 
           <button 
-            className="md:hidden text-slate-600"
+            className="md:hidden text-slate-600 p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Desplegable con auto-cierre */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3">
-            <a href="#inicio" className="block text-slate-600 font-medium">Inicio</a>
-            <a href="#productos" className="block text-slate-600 font-medium">Productos</a>
-            <a href="#nosotros" className="block text-slate-600 font-medium">Nosotros</a>
-            <a href="#contacto" className="block text-slate-600 font-medium">Contacto</a>
-            <button
-              onClick={() => handleWhatsApp()}
-              className="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2"
+          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
+            <a 
+              href="#inicio" 
+              onClick={closeMobileMenu} 
+              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
             >
-              <MessageCircle className="w-4 h-4" />
+              Inicio
+            </a>
+            <a 
+              href="#productos" 
+              onClick={closeMobileMenu} 
+              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+            >
+              Productos
+            </a>
+            <a 
+              href="#nosotros" 
+              onClick={closeMobileMenu} 
+              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+            >
+              Nosotros
+            </a>
+            <a 
+              href="#contacto" 
+              onClick={closeMobileMenu} 
+              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+            >
+              Contacto
+            </a>
+            <button
+              onClick={() => { closeMobileMenu(); handleWhatsApp(); }}
+              className="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 mt-2"
+            >
+              <WhatsAppIcon className="w-4 h-4" />
               <span>Cotizar por WhatsApp</span>
             </button>
           </div>
@@ -153,7 +201,7 @@ export default function Home() {
               Equipamiento e Infraestructura Industrial de Alta Resistencia
             </h1>
             <p className="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-              Especialistas en componentes para redes contra incendio, equipamiento para naves logísticas y aditivos para construcción. Atención personalizada y precios sin intermediarios.
+              Ofrecemos productos novedosos para la construcción. Especialistas en soluciones para naves industriales y redes contra incendio. Comprá sin intermediarios, con atención personalizada y precios competitivos.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -175,7 +223,7 @@ export default function Home() {
       </section>
 
       {/* Value Proposition Grid */}
-      <section className="bg-white border-b border-slate-200 py-8">
+      <section id="nosotros" className="bg-white border-b border-slate-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
             <ShieldCheck className="w-10 h-10 text-blue-600 flex-shrink-0" />
@@ -192,7 +240,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-            <MessageCircle className="w-10 h-10 text-emerald-600 flex-shrink-0" />
+            <WhatsAppIcon className="w-10 h-10 text-emerald-600 flex-shrink-0" />
             <div>
               <h4 className="font-bold text-slate-900 text-sm">Atención Especializada</h4>
               <p className="text-xs text-slate-500">Asesoramiento técnico para pliegos y proyectos.</p>
@@ -242,29 +290,42 @@ export default function Home() {
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((p) => (
-            <div key={p.id} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+            <div key={p.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
               <div>
-                <div className="flex justify-between items-start mb-3">
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded">
-                    {p.category}
-                  </span>
+                {/* Imagen Oficial del Producto */}
+                <div className="relative h-56 bg-slate-100 overflow-hidden flex items-center justify-center p-4">
+                  <img 
+                    src={p.image} 
+                    alt={p.name}
+                    className="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-105"
+                  />
+                  <div className="absolute top-3 left-3 flex flex-col gap-1">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-blue-700 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded shadow-sm border border-slate-200">
+                      {p.category}
+                    </span>
+                  </div>
                   {p.badge && (
-                    <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">
+                    <span className="absolute top-3 right-3 text-[11px] font-bold text-amber-800 bg-amber-100/95 backdrop-blur-sm border border-amber-300 px-2 py-0.5 rounded shadow-sm">
                       {p.badge}
                     </span>
                   )}
                 </div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">{p.name}</h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">{p.description}</p>
+
+                <div className="p-6">
+                  <h3 className="font-bold text-slate-900 text-lg mb-2">{p.name}</h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">{p.description}</p>
+                </div>
               </div>
 
-              <button
-                onClick={() => handleWhatsApp(p.name)}
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition-colors"
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Consultar Cotización</span>
-              </button>
+              <div className="p-6 pt-0">
+                <button
+                  onClick={() => handleWhatsApp(p.name)}
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition-colors"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
+                  <span>Consultar Cotización por WhatsApp</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -280,9 +341,11 @@ export default function Home() {
       <footer id="contacto" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="bg-white text-slate-900 font-extrabold text-xl tracking-wider px-3 py-1 rounded inline-block mb-4">
-              INDUSNOR
-            </div>
+            <img 
+              src="https://d26lpennug273w.cloudfront.net/stores/003/751/116/themes/common/logo-1721516246-1701358500-1c3902f5a013d508933b9f4e2f8ec55d1701358500.png" 
+              alt="Indusnor Logo" 
+              className="h-10 object-contain mb-4 bg-white p-1.5 rounded"
+            />
             <p className="text-xs text-slate-400 leading-relaxed">
               Soluciones integrales para naves industriales, logística y redes contra incendio. Venta directa y cobertura en toda la Argentina.
             </p>
@@ -291,17 +354,36 @@ export default function Home() {
           <div>
             <h4 className="text-white font-bold text-sm mb-4">Contacto Comercial</h4>
             <ul className="space-y-3 text-xs">
-              <li className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 text-blue-500" />
-                <span>+54 9 11 2570-5184</span>
+              <li>
+                <a 
+                  href="https://wa.me/5491125705184" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2.5 hover:text-emerald-400 transition-colors"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-emerald-500" />
+                  <span>+54 9 11 2570-5184 (WhatsApp)</span>
+                </a>
               </li>
-              <li className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 text-blue-500" />
-                <span>Indusnorconstruye@gmail.com</span>
+              <li>
+                <a 
+                  href="mailto:Indusnorconstruye@gmail.com" 
+                  className="flex items-center space-x-2.5 hover:text-blue-400 transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-blue-500" />
+                  <span>Indusnorconstruye@gmail.com</span>
+                </a>
               </li>
-              <li className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4 text-blue-500" />
-                <span>Parque Industrial Norlog, Buenos Aires</span>
+              <li>
+                <a 
+                  href="https://maps.google.com/?q=Parque+Industrial+Norlog+Buenos+Aires" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2.5 hover:text-blue-400 transition-colors"
+                >
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                  <span>Parque Industrial Norlog, Buenos Aires</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -315,7 +397,7 @@ export default function Home() {
               onClick={() => handleWhatsApp()}
               className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center space-x-2 transition-colors"
             >
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>Contactar Asesor Técnico</span>
             </button>
           </div>
