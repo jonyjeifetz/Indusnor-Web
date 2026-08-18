@@ -36,7 +36,7 @@ const PRODUCTS: Product[] = [
     name: "Rampa Hidráulica (Dock Leveler)",
     category: "Naves Industriales",
     description: "Solución de nivelación para andenes de carga y descarga en depósitos e industrias logísticas.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/rampa-hidraulica-11-c67d710d0a2db709ca17013589885141-1024-1024.jpg",
+    image: "/images/rampa.jpg",
     badge: "Destacado"
   },
   {
@@ -44,14 +44,14 @@ const PRODUCTS: Product[] = [
     name: "Puerta Seccional Industrial",
     category: "Naves Industriales",
     description: "Paneles de poliuretano expandido para aislamiento térmico, seguridad y cierre hermético.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/puerta-seccional-11-d0fb5f524771e1f72717013591605374-1024-1024.jpg",
+    image: "/images/puerta.jpg",
   },
   {
     id: 3,
     name: "Sprinkler Victaulic V3403 Upright K11.2",
     category: "Redes Contra Incendio",
     description: "Rociador automático 68°C BSPT con certificaciones internacionales UL/FM para protección industrial.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/sprinkler-victaulic-11-825dfc42876800fa1b17013592837375-1024-1024.jpg",
+    image: "/images/sprinkler.jpg",
     badge: "UL / FM"
   },
   {
@@ -59,7 +59,7 @@ const PRODUCTS: Product[] = [
     name: "Acople Ranurado 2\" UL/FM",
     category: "Redes Contra Incendio",
     description: "Conexión rápida y flexible para tuberías de redes contra incendio con homologación UL/FM.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/acople-ranurado-11-5a21ff46efaa8bf97317013594191986-1024-1024.jpg",
+    image: "/images/acople.jpg",
     badge: "UL / FM"
   },
   {
@@ -67,14 +67,14 @@ const PRODUCTS: Product[] = [
     name: "Caños de Incendio IRAM 2502",
     category: "Redes Contra Incendio",
     description: "Pintados de rojo y ranurados para fácil ensamblaje técnico en instalaciones de protección.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/canos-de-incendio-11-09a8ebfbcd59050dc517013595181775-1024-1024.jpg",
+    image: "/images/canos.jpg",
   },
   {
     id: 6,
     name: "Macrofibra de Polipropileno",
     category: "Aditivos para Hormigón",
     description: "Refuerzo estructural para contrapisos, pavimentos e industrial flooring evitando fisuras.",
-    image: "https://d26lpennug273w.cloudfront.net/stores/003/751/116/products/macrofibra-11-ea2fa7cf424269e80a17013596203112-1024-1024.jpg",
+    image: "/images/macrofibra.jpg",
   }
 ];
 
@@ -110,9 +110,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <a href="#inicio" className="flex items-center">
-              {/* Logo Oficial de Indusnor */}
               <img 
-                src="https://d26lpennug273w.cloudfront.net/stores/003/751/116/themes/common/logo-1721516246-1701358500-1c3902f5a013d508933b9f4e2f8ec55d1701358500.png" 
+                src="/images/logo.png" 
                 alt="Indusnor Logo" 
                 className="h-10 sm:h-12 object-contain"
               />
@@ -148,7 +147,7 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Mobile Navigation Desplegable con auto-cierre */}
+        {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
             <a 
@@ -257,7 +256,6 @@ export default function Home() {
             <p className="text-slate-500 text-sm mt-1">Explorá nuestras soluciones técnicas o buscá el insumo que necesitás.</p>
           </div>
 
-          {/* Search bar */}
           <div className="mt-4 md:mt-0 relative w-full md:w-72">
             <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
             <input
@@ -270,7 +268,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Category Filter Pills */}
         <div className="flex flex-wrap gap-2 mb-8">
           {categories.map((cat) => (
             <button
@@ -287,12 +284,10 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((p) => (
             <div key={p.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
               <div>
-                {/* Imagen Oficial del Producto */}
                 <div className="relative h-56 bg-slate-100 overflow-hidden flex items-center justify-center p-4">
                   <img 
                     src={p.image} 
@@ -342,7 +337,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <img 
-              src="https://d26lpennug273w.cloudfront.net/stores/003/751/116/themes/common/logo-1721516246-1701358500-1c3902f5a013d508933b9f4e2f8ec55d1701358500.png" 
+              src="/images/logo.png" 
               alt="Indusnor Logo" 
               className="h-10 object-contain mb-4 bg-white p-1.5 rounded"
             />
