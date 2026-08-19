@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Search, 
   Mail, 
@@ -92,7 +92,15 @@ export default function Home() {
 
   const categories = ["Todos", "Naves Industriales", "Redes Contra Incendio", "Aditivos para Hormigón"];
 
-  // Filtrado robusto tolerante a espacios y mayúsculas
+  // Forzar inicio en el tope al cargar o refrescar
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Filtrado de productos
   const filteredProducts = PRODUCTS.filter((p) => {
     const categoryMatch =
       selectedCategory === "Todos" ||
