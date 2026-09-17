@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
@@ -17,15 +17,44 @@ const getWhatsAppUrl = () =>
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
 
   const navLinks = [
-    { name: "Inicio", href: "#inicio" },
-    { name: "Productos", href: "#productos" },
-    { name: "Nuestras Naves", href: "#naves" },
-    { name: "Proyectos y Entregas", href: "#proyectos" },
-    { name: "Clientes", href: "#clientes" },
-    { name: "Contacto", href: "#contacto" },
+    { name: "Inicio", href: "#inicio", id: "inicio" },
+    { name: "Productos", href: "#productos", id: "productos" },
+    { name: "Nuestras Naves", href: "#naves", id: "naves" },
+    { name: "Proyectos y Entregas", href: "#proyectos", id: "proyectos" },
+    { name: "Clientes", href: "#clientes", id: "clientes" },
+    { name: "Contacto", href: "#contacto", id: "contacto" },
   ];
+
+  useEffect(() => {
+    const sectionIds = navLinks.map((link) => link.id);
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    };
+
+    const handleIntersect: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
@@ -41,15 +70,22 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden lg:flex items-center space-x-6 font-medium text-sm">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-slate-600 hover:text-blue-600 transition-all duration-200"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`transition-all duration-200 ${
+                  isActive
+                    ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+                    : "text-slate-600 hover:text-blue-600"
+                }`}
+              >
+                {link.name}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="hidden lg:flex items-center space-x-4">
@@ -75,16 +111,21 @@ export default function Navbar() {
 
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-medium py-2 border-b border-slate-100 text-slate-700 hover:text-blue-600"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block font-medium py-2 border-b border-slate-100 ${
+                  isActive ? "text-blue-600 font-bold" : "text-slate-700 hover:text-blue-600"
+                }`}
+              >
+                {link.name}
+              </a>
+            );
+          })}
           <a
             href={getWhatsAppUrl()}
             target="_blank"
