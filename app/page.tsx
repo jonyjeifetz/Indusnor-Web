@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
 import { 
   Search, 
   Mail, 
   MapPin, 
   ShieldCheck, 
   Truck, 
-  FileText, 
-  Menu,
-  X
+  FileText
 } from "lucide-react";
 
-// Icono Oficial de WhatsApp
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
@@ -96,60 +94,9 @@ const getWhatsAppUrl = (productName?: string) => {
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [search, setSearch] = useState("");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("inicio");
 
   const categories = ["Todos", "Naves Industriales", "Redes Contra Incendio", "Aditivos para Hormigón"];
 
-  // Detectar la sección activa de manera precisa según el scroll
-  useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-    window.scrollTo(0, 0);
-
-    const handleScroll = () => {
-      // Si el usuario llega al final de la página, marcar "contacto" inmediatamente
-      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-      if (isBottom) {
-        setActiveSection("contacto");
-        return;
-      }
-
-      const sections = ["inicio", "productos", "contacto"];
-      const scrollPosition = window.scrollY + 250; // Offset para cambiar con fluidez
-
-      for (const sectionId of sections) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Navegación con actualización directa de estado
-  const handleNavClick = (sectionId: string) => {
-    setActiveSection(sectionId);
-    setMobileMenuOpen(false);
-  };
-
-  const handleScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setActiveSection("inicio");
-    setMobileMenuOpen(false);
-  };
-
-  // Filtrado de productos
   const filteredProducts = PRODUCTS.filter((p) => {
     const categoryMatch =
       selectedCategory === "Todos" ||
@@ -164,127 +111,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans" id="top">
-      {/* Header / Navbar */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-32 sm:h-40 flex items-center justify-between py-2">
-          <div className="flex items-center space-x-4">
-            <a 
-              href="#top" 
-              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
-              className="flex items-center cursor-pointer"
-            >
-              <img 
-                src="/images/logo.png" 
-                alt="Indusnor Logo" 
-                className="h-32 sm:h-44 w-auto object-contain"
-              />
-            </a>
-            <span className="text-xs sm:text-sm text-slate-500 hidden lg:inline-block border-l pl-4 border-slate-300">
-              Soluciones para Naves Industriales <br /> & Redes Contra Incendio
-            </span>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-8 font-medium text-base">
-            <a 
-              href="#top" 
-              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
-              className={`transition-all duration-200 cursor-pointer ${
-                activeSection === "inicio"
-                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
-                  : "text-slate-600 hover:text-blue-600"
-              }`}
-            >
-              Inicio
-            </a>
-            <a 
-              href="#productos" 
-              onClick={() => handleNavClick("productos")}
-              className={`transition-all duration-200 ${
-                activeSection === "productos"
-                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
-                  : "text-slate-600 hover:text-blue-600"
-              }`}
-            >
-              Productos
-            </a>
-            <a 
-              href="#contacto" 
-              onClick={() => handleNavClick("contacto")}
-              className={`transition-all duration-200 ${
-                activeSection === "contacto"
-                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
-                  : "text-slate-600 hover:text-blue-600"
-              }`}
-            >
-              Contacto
-            </a>
-          </nav>
-
-          <div className="hidden md:flex items-center space-x-4">
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-3 rounded-lg flex items-center space-x-2 transition-all shadow-sm"
-            >
-              <WhatsAppIcon className="w-5 h-5" />
-              <span>Cotizar por WhatsApp</span>
-            </a>
-          </div>
-
-          <button 
-            type="button"
-            className="md:hidden text-slate-600 p-2 focus:outline-none"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Menu"
-          >
-            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
-            <a 
-              href="#top"
-              onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
-              className={`block font-medium py-2 border-b border-slate-100 ${
-                activeSection === "inicio" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
-              }`}
-            >
-              Inicio
-            </a>
-            <a 
-              href="#productos" 
-              onClick={() => handleNavClick("productos")} 
-              className={`block font-medium py-2 border-b border-slate-100 ${
-                activeSection === "productos" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
-              }`}
-            >
-              Productos
-            </a>
-            <a 
-              href="#contacto" 
-              onClick={() => handleNavClick("contacto")} 
-              className={`block font-medium py-2 border-b border-slate-100 ${
-                activeSection === "contacto" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
-              }`}
-            >
-              Contacto
-            </a>
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center space-x-2 mt-2"
-            >
-              <WhatsAppIcon className="w-5 h-5" />
-              <span>Cotizar por WhatsApp</span>
-            </a>
-          </div>
-        )}
-      </header>
+      {/* Navbar Global */}
+      <Navbar />
 
       {/* Hero Section */}
       <section id="inicio" className="bg-slate-900 text-white py-16 sm:py-24 relative overflow-hidden">
@@ -302,7 +130,6 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#productos"
-                onClick={() => handleNavClick("productos")}
                 className="bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold px-6 py-3.5 rounded-lg transition-all shadow-md"
               >
                 Ver Catálogo de Productos
