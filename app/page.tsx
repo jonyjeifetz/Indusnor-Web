@@ -48,6 +48,14 @@ const PRODUCTS: Product[] = [
   },
   {
     id: 3,
+    name: "Abrigo Aislante Retráctil para Puerto de Carga",
+    category: "Naves Industriales",
+    description: "Sistemas de sellado retráctil en PVC y aluminio para andenes. Protege contra viento, lluvia y pérdida de temperatura.",
+    image: "/images/aislante.png",
+    badge: "Nuevo"
+  },
+  {
+    id: 4,
     name: "Sprinkler Victaulic V3403 Upright K11.2",
     category: "Redes Contra Incendio",
     description: "Rociador automático 68°C BSPT con certificaciones internacionales UL/FM para protección industrial.",
@@ -55,7 +63,7 @@ const PRODUCTS: Product[] = [
     badge: "UL / FM"
   },
   {
-    id: 4,
+    id: 5,
     name: "Acople Ranurado 2\" UL/FM",
     category: "Redes Contra Incendio",
     description: "Conexión rápida y flexible para tuberías de redes contra incendio con homologación UL/FM.",
@@ -63,14 +71,14 @@ const PRODUCTS: Product[] = [
     badge: "UL / FM"
   },
   {
-    id: 5,
+    id: 6,
     name: "Caños de Incendio IRAM 2502",
     category: "Redes Contra Incendio",
     description: "Pintados de rojo y ranurados para fácil ensamblaje técnico en instalaciones de protección.",
     image: "/images/canos.jpg",
   },
   {
-    id: 6,
+    id: 7,
     name: "Macrofibra de Polipropileno",
     category: "Aditivos para Hormigón",
     description: "Refuerzo estructural para contrapisos, pavimentos e industrial flooring evitando fisuras.",
