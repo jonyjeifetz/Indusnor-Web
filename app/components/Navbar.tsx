@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -18,22 +17,21 @@ const getWhatsAppUrl = () =>
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
 
   const navLinks = [
-    { name: "Inicio", href: "/" },
-    { name: "Productos", href: "/#productos" },
-    { name: "Nuestras Naves", href: "/naves" },
-    { name: "Proyectos y Entregas", href: "/proyectos" },
-    { name: "Empresas que nos Eligen y Eligieron", href: "/empresas" },
-    { name: "Contacto", href: "/#contacto" },
+    { name: "Inicio", href: "#inicio" },
+    { name: "Productos", href: "#productos" },
+    { name: "Nuestras Naves", href: "#naves" },
+    { name: "Proyectos y Entregas", href: "#proyectos" },
+    { name: "Clientes", href: "#clientes" },
+    { name: "Contacto", href: "#contacto" },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-28 sm:h-32 flex items-center justify-between py-2">
         <div className="flex items-center space-x-4">
-          <Link href="/" className="flex items-center">
+          <Link href="#inicio" className="flex items-center">
             <img 
               src="/images/logo.png" 
               alt="Indusnor Logo" 
@@ -43,22 +41,15 @@ export default function Navbar() {
         </div>
 
         <nav className="hidden lg:flex items-center space-x-6 font-medium text-sm">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`transition-all duration-200 ${
-                  isActive
-                    ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-slate-600 hover:text-blue-600 transition-all duration-200"
+            >
+              {link.name}
+            </a>
+          ))}
         </nav>
 
         <div className="hidden lg:flex items-center space-x-4">
@@ -85,14 +76,14 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3 shadow-lg">
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
               className="block font-medium py-2 border-b border-slate-100 text-slate-700 hover:text-blue-600"
             >
               {link.name}
-            </Link>
+            </a>
           ))}
           <a
             href={getWhatsAppUrl()}
