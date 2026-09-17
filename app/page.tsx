@@ -36,7 +36,7 @@ const PRODUCTS: Product[] = [
     name: "Rampa Hidráulica (Dock Leveler)",
     category: "Naves Industriales",
     description: "Solución de nivelación para andenes de carga y descarga en depósitos e industrias logísticas.",
-    image: "/images/rampa.jpg",
+    image: "/images/rampa.png",
     badge: "Destacado"
   },
   {
@@ -59,7 +59,7 @@ const PRODUCTS: Product[] = [
     name: "Sprinkler Victaulic V3403 Upright K11.2",
     category: "Redes Contra Incendio",
     description: "Rociador automático 68°C BSPT con certificaciones internacionales UL/FM para protección industrial.",
-    image: "/images/sprinkler.jpg",
+    image: "/images/sprinkler.png",
     badge: "UL / FM"
   },
   {
@@ -75,7 +75,7 @@ const PRODUCTS: Product[] = [
     name: "Caños de Incendio IRAM 2502",
     category: "Redes Contra Incendio",
     description: "Pintados de rojo y ranurados para fácil ensamblaje técnico en instalaciones de protección.",
-    image: "/images/canos.jpg",
+    image: "/images/canos.png",
   },
   {
     id: 7,
@@ -97,16 +97,50 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const [search, setSearch] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
 
   const categories = ["Todos", "Naves Industriales", "Redes Contra Incendio", "Aditivos para Hormigón"];
 
-  // Forzar inicio en el tope al cargar o refrescar
+  // Detectar la sección activa de manera precisa según el scroll
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
+
+    const handleScroll = () => {
+      const sections = ["inicio", "productos", "contacto"];
+      const scrollPosition = window.scrollY + 250; // Offset para cambiar con fluidez
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Navegación con actualización directa de estado
+  const handleNavClick = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setMobileMenuOpen(false);
+  };
+
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setActiveSection("inicio");
+    setMobileMenuOpen(false);
+  };
 
   // Filtrado de productos
   const filteredProducts = PRODUCTS.filter((p) => {
@@ -120,11 +154,6 @@ export default function Home() {
 
     return categoryMatch && searchMatch;
   });
-
-  const handleScrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setMobileMenuOpen(false);
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans" id="top">
@@ -148,18 +177,38 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8 font-medium text-slate-600 text-base">
+          <nav className="hidden md:flex items-center space-x-8 font-medium text-base">
             <a 
               href="#top" 
               onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
-              className="hover:text-blue-600 transition-colors cursor-pointer"
+              className={`transition-all duration-200 cursor-pointer ${
+                activeSection === "inicio"
+                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+                  : "text-slate-600 hover:text-blue-600"
+              }`}
             >
               Inicio
             </a>
-            <a href="#productos" className="hover:text-blue-600 transition-colors">
+            <a 
+              href="#productos" 
+              onClick={() => handleNavClick("productos")}
+              className={`transition-all duration-200 ${
+                activeSection === "productos"
+                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+                  : "text-slate-600 hover:text-blue-600"
+              }`}
+            >
               Productos
             </a>
-            <a href="#contacto" className="hover:text-blue-600 transition-colors">
+            <a 
+              href="#contacto" 
+              onClick={() => handleNavClick("contacto")}
+              className={`transition-all duration-200 ${
+                activeSection === "contacto"
+                  ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
+                  : "text-slate-600 hover:text-blue-600"
+              }`}
+            >
               Contacto
             </a>
           </nav>
@@ -192,21 +241,27 @@ export default function Home() {
             <a 
               href="#top"
               onClick={(e) => { e.preventDefault(); handleScrollTop(); }}
-              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+              className={`block font-medium py-2 border-b border-slate-100 ${
+                activeSection === "inicio" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
+              }`}
             >
               Inicio
             </a>
             <a 
               href="#productos" 
-              onClick={() => setMobileMenuOpen(false)} 
-              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+              onClick={() => handleNavClick("productos")} 
+              className={`block font-medium py-2 border-b border-slate-100 ${
+                activeSection === "productos" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
+              }`}
             >
               Productos
             </a>
             <a 
               href="#contacto" 
-              onClick={() => setMobileMenuOpen(false)} 
-              className="block text-slate-700 font-medium py-2 border-b border-slate-100"
+              onClick={() => handleNavClick("contacto")} 
+              className={`block font-medium py-2 border-b border-slate-100 ${
+                activeSection === "contacto" ? "text-blue-600 font-bold border-l-4 border-blue-600 pl-2" : "text-slate-700"
+              }`}
             >
               Contacto
             </a>
@@ -240,6 +295,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#productos"
+                onClick={() => handleNavClick("productos")}
                 className="bg-blue-600 hover:bg-blue-700 text-white text-center font-semibold px-6 py-3.5 rounded-lg transition-all shadow-md"
               >
                 Ver Catálogo de Productos
@@ -374,7 +430,7 @@ export default function Home() {
         )}
       </section>
 
-      {/* Footer */}
+      {/* Footer / Contacto */}
       <footer id="contacto" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
