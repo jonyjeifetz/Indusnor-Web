@@ -109,6 +109,13 @@ export default function Home() {
     window.scrollTo(0, 0);
 
     const handleScroll = () => {
+      // Si el usuario llega al final de la página, marcar "contacto" inmediatamente
+      const isBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (isBottom) {
+        setActiveSection("contacto");
+        return;
+      }
+
       const sections = ["inicio", "productos", "contacto"];
       const scrollPosition = window.scrollY + 250; // Offset para cambiar con fluidez
 
