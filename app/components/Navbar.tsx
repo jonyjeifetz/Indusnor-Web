@@ -29,16 +29,30 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
+    const handleScroll = () => {
+      // Si scrolleamos hasta el final de la página (bottom), marcamos contacto inmediatamente
+      const isAtBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+
+      if (isAtBottom) {
+        setActiveSection("contacto");
+      }
+    };
+
     const sectionIds = navLinks.map((link) => link.id);
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0,
+      rootMargin: "-20% 0px -40% 0px",
+      threshold: 0.1,
     };
 
     const handleIntersect: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        // Solo actualiza por intersección si no estamos en el final absoluto
+        const isAtBottom =
+          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+        
+        if (entry.isIntersecting && !isAtBottom) {
           setActiveSection(entry.target.id);
         }
       });
@@ -53,7 +67,12 @@ export default function Navbar() {
       }
     });
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -76,6 +95,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
+                onClick={() => setActiveSection(link.id)}
                 className={`transition-all duration-200 ${
                   isActive
                     ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
@@ -117,7 +137,10 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setActiveSection(link.id);
+                  setMobileMenuOpen(false);
+                }}
                 className={`block font-medium py-2 border-b border-slate-100 ${
                   isActive ? "text-blue-600 font-bold" : "text-slate-700 hover:text-blue-600"
                 }`}
