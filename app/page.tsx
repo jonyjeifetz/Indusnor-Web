@@ -111,10 +111,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans" id="top">
-      {/* Navbar Global */}
       <Navbar />
 
-      {/* Hero Section */}
       <section id="inicio" className="bg-slate-900 text-white py-16 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
@@ -148,7 +146,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Value Proposition Grid */}
       <section className="bg-white border-b border-slate-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex items-center space-x-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
@@ -175,7 +172,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Catalog / Products Section */}
       <section id="productos" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
           <div>
@@ -195,7 +191,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Botones de Categorías */}
         <div className="flex flex-wrap gap-2 mb-8">
           {categories.map((cat) => (
             <button
@@ -213,7 +208,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Grilla de Productos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((p) => (
             <div key={p.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
@@ -264,7 +258,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Footer / Contacto */}
       <footer id="contacto" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>

@@ -2,12 +2,22 @@
 
 import React from "react";
 import Navbar from "../components/Navbar";
-import { Mail, Instagram, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight } from "lucide-react";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} fill="currentColor" viewBox="0 0 24 24">
       <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.764.459 3.486 1.332 5.006L2 22l5.127-1.336a9.981 9.981 0 004.885 1.321h.004c5.505 0 9.988-4.478 9.989-9.985 0-2.668-1.039-5.176-2.926-7.062A9.914 9.914 0 0012.012 2zm.004 18.171h-.003a8.31 8.31 0 01-4.237-1.163l-.304-.181-3.146.82.839-3.058-.198-.313a8.297 8.297 0 01-1.272-4.474c0-4.576 3.722-8.3 8.303-8.3 2.217 0 4.301.865 5.867 2.433 1.566 1.567 2.428 3.652 2.427 5.871 0 4.577-3.723 8.301-8.276 8.305zm4.551-6.216c-.25-.125-1.478-.729-1.707-.812-.229-.083-.396-.125-.562.125-.167.25-.646.812-.792.979-.146.166-.292.187-.542.062a6.837 6.837 0 01-2.012-1.238 7.55 7.55 0 01-1.393-1.733c-.146-.25 0-.381.119-.505.11-.114.25-.292.375-.438.125-.146.167-.25.25-.417.083-.166.042-.312-.021-.437-.063-.125-.562-1.354-.771-1.854-.204-.488-.413-.422-.563-.429-.142-.007-.304-.007-.466-.007s-.425.061-.647.302c-.222.241-.852.833-.852 2.031 0 1.199.873 2.355.996 2.521.123.167 1.718 2.623 4.161 3.678.581.25 1.035.399 1.389.512.584.185 1.116.159 1.536.096.468-.07 1.478-.604 1.687-1.188.208-.583.208-1.083.146-1.188-.063-.104-.229-.187-.479-.312z"/>
+    </svg>
+  );
+}
+
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
     </svg>
   );
 }
@@ -106,11 +116,10 @@ export default function ProyectosPage() {
           ))}
         </div>
 
-        {/* Banner de Instagram */}
         <div className="mt-16 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-8 sm:p-10 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-lg">
           <div className="max-w-xl text-center sm:text-left">
             <div className="inline-flex items-center space-x-2 text-pink-400 font-semibold text-xs uppercase tracking-wider mb-2">
-              <Instagram className="w-4 h-4" />
+              <InstagramIcon className="w-4 h-4" />
               <span>Comunidad & Novedades</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold">Seguinos en Instagram para ver más entregas</h3>
@@ -125,7 +134,7 @@ export default function ProyectosPage() {
             rel="noopener noreferrer"
             className="bg-white hover:bg-slate-100 text-slate-900 text-xs font-bold px-6 py-3.5 rounded-xl transition-all shadow-md flex-shrink-0 flex items-center space-x-2"
           >
-            <Instagram className="w-4 h-4 text-pink-600" />
+            <InstagramIcon className="w-4 h-4 text-pink-600" />
             <span>Visitar Perfil de Instagram</span>
           </a>
         </div>
