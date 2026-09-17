@@ -440,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* SECCIÓN CLIENTES */}
-      <section id="clientes" className="py-16 bg-white border-t border-slate-200">
+      <section id="clientes" className="py-24 sm:py-32 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
             <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Confianza y Trayectoria</span>

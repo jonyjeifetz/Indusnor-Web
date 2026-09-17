@@ -30,9 +30,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Si scrolleamos hasta el final de la página (bottom), marcamos contacto inmediatamente
+      // Solo fuerza "contacto" si se scrolleó estrictamente hasta el borde final de la pantalla (menos de 15px de margen)
       const isAtBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 15;
 
       if (isAtBottom) {
         setActiveSection("contacto");
@@ -42,15 +42,14 @@ export default function Navbar() {
     const sectionIds = navLinks.map((link) => link.id);
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -40% 0px",
-      threshold: 0.1,
+      rootMargin: "-20% 0px -30% 0px",
+      threshold: 0.15,
     };
 
     const handleIntersect: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
-        // Solo actualiza por intersección si no estamos en el final absoluto
         const isAtBottom =
-          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 15;
         
         if (entry.isIntersecting && !isAtBottom) {
           setActiveSection(entry.target.id);
