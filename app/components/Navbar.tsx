@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -30,7 +29,6 @@ export default function Navbar() {
   // Forzar inicio arriba de todo al recargar la página
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Si la URL tiene un hash al recargar, limpiamos para posicionar arriba
       if (window.location.hash) {
         window.history.replaceState(null, "", window.location.pathname);
       }
@@ -39,48 +37,59 @@ export default function Navbar() {
     }
   }, []);
 
+  // Detector de sección activa fluido mediante cálculo continuo de scroll
   useEffect(() => {
-    const handleScroll = () => {
-      // Detección cuando se llega al final de la página (Footer/Contacto)
-      const isAtBottom =
-        Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25;
+    let ticking = false;
 
-      if (isAtBottom) {
+    const updateActiveSection = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const fullHeight = document.documentElement.scrollHeight;
+
+      // 1. Si llegó al fondo absoluto de la página (Footer)
+      if (Math.ceil(scrollPosition + windowHeight) >= fullHeight - 20) {
         setActiveSection("contacto");
+        ticking = false;
+        return;
       }
-    };
 
-    const sectionIds = navLinks.map((link) => link.id);
-    const observerOptions = {
-      root: null,
-      rootMargin: "-15% 0px -25% 0px",
-      threshold: 0.1,
-    };
+      // 2. Si está en la parte superior del todo
+      if (scrollPosition < 80) {
+        setActiveSection("inicio");
+        ticking = false;
+        return;
+      }
 
-    const handleIntersect: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        const isAtBottom =
-          Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25;
-        
-        if (entry.isIntersecting && !isAtBottom) {
-          setActiveSection(entry.target.id);
+      // 3. Determinar qué sección abarca el centro de la pantalla
+      const viewportCenter = scrollPosition + windowHeight / 2.5;
+      const sectionIds = navLinks.map((link) => link.id);
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const element = document.getElementById(id);
+        if (element) {
+          const top = element.offsetTop;
+          if (viewportCenter >= top) {
+            setActiveSection(id);
+            break;
+          }
         }
-      });
+      }
+
+      ticking = false;
     };
 
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) {
-        observer.observe(element);
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveSection);
+        ticking = true;
       }
-    });
+    };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    updateActiveSection(); // Ejecutar al cargar
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -92,6 +101,11 @@ export default function Navbar() {
     if (window.location.hash) {
       window.history.replaceState(null, "", window.location.pathname);
     }
+  };
+
+  const handleNavClick = (id: string) => {
+    setActiveSection(id);
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -114,7 +128,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setActiveSection(link.id)}
+                onClick={() => handleNavClick(link.id)}
                 className={`transition-all duration-200 ${
                   isActive
                     ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-1"
@@ -144,7 +158,13 @@ export default function Navbar() {
           className="lg:hidden text-slate-600 p-2 focus:outline-none"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            {mobileMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
         </button>
       </div>
 
@@ -156,10 +176,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => {
-                  setActiveSection(link.id);
-                  setMobileMenuOpen(false);
-                }}
+                onClick={() => handleNavClick(link.id)}
                 className={`block font-medium py-2 border-b border-slate-100 ${
                   isActive ? "text-blue-600 font-bold" : "text-slate-700 hover:text-blue-600"
                 }`}
