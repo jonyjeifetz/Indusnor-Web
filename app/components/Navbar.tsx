@@ -30,9 +30,9 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Solo fuerza "contacto" si se scrolleó estrictamente hasta el borde final de la pantalla (menos de 15px de margen)
+      // Detección estricta al llegar al final de la página
       const isAtBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 15;
+        Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 2;
 
       if (isAtBottom) {
         setActiveSection("contacto");
@@ -42,14 +42,14 @@ export default function Navbar() {
     const sectionIds = navLinks.map((link) => link.id);
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -30% 0px",
-      threshold: 0.15,
+      rootMargin: "-10% 0px -20% 0px",
+      threshold: 0.2,
     };
 
     const handleIntersect: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         const isAtBottom =
-          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 15;
+          Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 2;
         
         if (entry.isIntersecting && !isAtBottom) {
           setActiveSection(entry.target.id);
@@ -66,7 +66,7 @@ export default function Navbar() {
       }
     });
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       observer.disconnect();
