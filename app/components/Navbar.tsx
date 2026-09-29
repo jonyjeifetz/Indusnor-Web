@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -28,11 +27,23 @@ export default function Navbar() {
     { name: "Contacto", href: "#contacto", id: "contacto" },
   ];
 
+  // Forzar inicio arriba de todo al recargar la página
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Si la URL tiene un hash al recargar, limpiamos para posicionar arriba
+      if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+      window.scrollTo(0, 0);
+      setActiveSection("inicio");
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      // Detección estricta al llegar al final de la página
+      // Detección cuando se llega al final de la página (Footer/Contacto)
       const isAtBottom =
-        Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 2;
+        Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25;
 
       if (isAtBottom) {
         setActiveSection("contacto");
@@ -42,14 +53,14 @@ export default function Navbar() {
     const sectionIds = navLinks.map((link) => link.id);
     const observerOptions = {
       root: null,
-      rootMargin: "-10% 0px -20% 0px",
-      threshold: 0.2,
+      rootMargin: "-15% 0px -25% 0px",
+      threshold: 0.1,
     };
 
     const handleIntersect: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         const isAtBottom =
-          Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 2;
+          Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 25;
         
         if (entry.isIntersecting && !isAtBottom) {
           setActiveSection(entry.target.id);
@@ -74,17 +85,26 @@ export default function Navbar() {
     };
   }, []);
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setActiveSection("inicio");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.location.hash) {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-28 sm:h-32 flex items-center justify-between py-2">
         <div className="flex items-center space-x-4">
-          <Link href="#inicio" className="flex items-center">
+          <a href="#inicio" onClick={handleLogoClick} className="flex items-center cursor-pointer">
             <img 
               src="/images/logo.png" 
               alt="Indusnor Logo" 
               className="h-24 sm:h-32 w-auto object-contain"
             />
-          </Link>
+          </a>
         </div>
 
         <nav className="hidden lg:flex items-center space-x-6 font-medium text-sm">

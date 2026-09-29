@@ -484,8 +484,8 @@ export default function Home() {
       </section>
 
       {/* SECCIÓN CLIENTES */}
-      <section id="clientes" className="py-24 sm:py-32 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="clientes" className="py-28 sm:py-36 min-h-[70vh] flex flex-col justify-center bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="mb-10">
             <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Confianza y Trayectoria</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Sectores y Clientes</h2>
