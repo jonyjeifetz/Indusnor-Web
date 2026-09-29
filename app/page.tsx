@@ -12,7 +12,8 @@ import {
   Building2,
   CheckCircle2,
   ArrowUpRight,
-  Building
+  Building,
+  Image as ImageIcon
 } from "lucide-react";
 
 function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -101,9 +102,10 @@ const PRODUCTS: Product[] = [
 const NAVES = [
   {
     id: 1,
-    title: "Nave Industrial Norlog I",
-    location: "Parque Industrial Norlog, Tigre",
-    surface: "3.500 m² cubiertos",
+    lote: "Lote 17",
+    title: "Nave Industrial - Lote 17",
+    location: "Parque Plataforma Logística Norlog, Tigre",
+    surface: "XX m² cubiertos",
     description: "Nave logística de última generación con altura libre de 12m, portones seccionales automáticos y abrigos de muelle integrados.",
     features: [
       "Pisos de hormigón con fibra sintética de alta resistencia",
@@ -111,13 +113,14 @@ const NAVES = [
       "Aislamiento térmico superior en cubierta y laterales",
       "3 Dock levelers instalados"
     ],
-    image: "/images/naves1.png"
+    image: ""
   },
   {
     id: 2,
-    title: "Nave Centro Logístico Norlog II",
-    location: "Parque Industrial Norlog, Tigre",
-    surface: "5.200 m² cubiertos",
+    lote: "Lote 33",
+    title: "Nave Centro Logístico - Lote 33",
+    location: "Parque Plataforma Logística Norlog, Tigre",
+    surface: "XX m² cubiertos",
     description: "Diseñada para logística pesada y almacenamiento de gran escala. Cuenta con amplias playas de maniobra y seguridad 24 hs.",
     features: [
       "Estructura metálica reticulada de gran luz libre",
@@ -125,7 +128,34 @@ const NAVES = [
       "Sistema de detección y extinción de incendios",
       "Oficinas administrativas integradas"
     ],
-    image: "/images/naves2.png"
+    image: ""
+  },
+  {
+    id: 3,
+    lote: "Lote 34",
+    title: "Nave Industrial - Lote 34",
+    location: "Parque Plataforma Logística Norlog, Tigre",
+    surface: "XX m² cubiertos",
+    description: "Infraestructura moderna para almacenamiento y distribución con andenes equipados y máxima flexibilidad operativa.",
+    features: [
+      "Cerramientos herméticos y aislamiento térmico",
+      "Playas de maniobras para camiones de gran porte",
+      "Protección contra incendios según normas vigentes"
+    ],
+    image: ""
+  },
+  {
+    id: 4,
+    lote: "Lote 15",
+    title: "Nave Industrial - Lote 15",
+    location: "Parque Plataforma Logística Norlog, Tigre",
+    surface: "XX m² cubiertos",
+    description: "Unidad logística optimizada para operaciones operativas de alta exigencia y conectividad estratégica.",
+    features: [
+      "Estructura metálica de alta resistencia",
+      "Facilidad para carga y descarga simultánea"
+    ],
+    image: ""
   }
 ];
 
@@ -136,7 +166,7 @@ const PROJECTS = [
     category: "Obras y Entregas",
     date: "Reciente",
     description: "Montaje finalizado de niveladores de muelle de carga en nave logística dentro del Parque Industrial Norlog.",
-    image: "/images/rampa.png"
+    image: ""
   },
   {
     id: 2,
@@ -144,7 +174,7 @@ const PROJECTS = [
     category: "Instalaciones",
     date: "Reciente",
     description: "Instalación de cerramientos térmicos automatizados para optimización del flujo logístico de mercadería.",
-    image: "/images/puerta.png"
+    image: ""
   },
   {
     id: 3,
@@ -152,28 +182,26 @@ const PROJECTS = [
     category: "Sistemas de Seguridad",
     date: "Reciente",
     description: "Pruebas de presión y montajes de acoples ranurados junto a rociadores Victaulic para certificación industrial.",
-    image: "/images/sprinkler.png"
+    image: ""
   }
 ];
 
-const CLIENTS = [
+const NORLOG_CLIENTS = [
   {
-    id: 1,
-    name: "Empresas de Logística y Depósitos",
-    sector: "Operaciones Logísticas",
-    description: "Equipamiento de andenes con rampas niveladoras, abrigos retráctiles y puertas seccionales de alta velocidad."
+    lote: "Lote 17",
+    clients: ["Novax", "Claro"]
   },
   {
-    id: 2,
-    name: "Constructoras e Instaladoras de Redes",
-    sector: "Construcción Industrial",
-    description: "Provisión directa de caños ranurados IRAM 2502, rociadores UL/FM y acoples para instalaciones contra incendio."
+    lote: "Lote 33",
+    clients: ["Global Truck"]
   },
   {
-    id: 3,
-    name: "Desarrolladores de Naves Industriales",
-    sector: "Real Estate Industrial",
-    description: "Suministro de macrofibras para refuerzo estructural de suelos y soluciones térmicas para cerramientos."
+    lote: "Lote 34",
+    clients: ["Benevia"]
+  },
+  {
+    lote: "Lote 15",
+    clients: ["Coafi S.A."]
   }
 ];
 
@@ -360,8 +388,16 @@ export default function Home() {
           <div className="space-y-8">
             {NAVES.map((nave) => (
               <div key={nave.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-0">
-                <div className="lg:col-span-6 bg-slate-100 min-h-[260px] relative overflow-hidden flex items-center justify-center p-4">
-                  <img src={nave.image} alt={nave.title} className="w-full h-full object-cover rounded-lg" />
+                <div className="lg:col-span-6 bg-slate-200 min-h-[260px] relative overflow-hidden flex flex-col items-center justify-center p-6 text-slate-400">
+                  {nave.image ? (
+                    <img src={nave.image} alt={nave.title} className="w-full h-full object-cover rounded-lg" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-center space-y-2">
+                      <ImageIcon className="w-12 h-12 text-slate-400" />
+                      <span className="text-base font-bold text-slate-600 uppercase tracking-wide">Imagen {nave.lote}</span>
+                      <span className="text-xs text-slate-400">Próximamente fotografía oficial</span>
+                    </div>
+                  )}
                 </div>
                 <div className="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between">
                   <div>
@@ -412,8 +448,16 @@ export default function Home() {
           {PROJECTS.map((project) => (
             <div key={project.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
               <div>
-                <div className="h-52 bg-slate-100 relative overflow-hidden flex items-center justify-center p-4">
-                  <img src={project.image} alt={project.title} className="max-h-full max-w-full object-contain" />
+                <div className="h-52 bg-slate-100 relative overflow-hidden flex flex-col items-center justify-center p-4 border-b border-slate-200 text-slate-400">
+                  {project.image ? (
+                    <img src={project.image} alt={project.title} className="max-h-full max-w-full object-contain" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-center space-y-1">
+                      <ImageIcon className="w-8 h-8 text-slate-400 mb-1" />
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Próximamente</span>
+                      <span className="text-[11px] text-slate-400">Registro fotográfico en obra</span>
+                    </div>
+                  )}
                   <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-white/95 px-2 py-0.5 rounded shadow-sm border border-slate-200">
                     {project.category}
                   </span>
@@ -445,30 +489,46 @@ export default function Home() {
           <div className="mb-10">
             <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Confianza y Trayectoria</span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Sectores y Clientes</h2>
-            <p className="text-slate-500 text-sm mt-1">Acompañamos a constructoras, parques logísticos e industrias de todo el país.</p>
+            <p className="text-slate-500 text-sm mt-1">Nuestra presencia y clientes en la Plataforma Logística Norlog.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CLIENTS.map((client) => (
-              <div key={client.id} className="bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col justify-between">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-100/60 px-2.5 py-1 rounded border border-blue-200 inline-block mb-3">
-                    {client.sector}
-                  </span>
-                  <h3 className="font-bold text-slate-900 text-base mb-2">{client.name}</h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">{client.description}</p>
-                </div>
-                <a
-                  href={getWhatsAppUrl(client.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition-colors text-center"
-                >
-                  <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
-                  <span>Solicitar Asesoramiento</span>
-                </a>
+          <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+            <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-800">
+              <Building2 className="w-6 h-6 text-blue-400" />
+              <div>
+                <h3 className="text-lg font-bold text-white">Parque Plataforma Logística Norlog</h3>
+                <p className="text-xs text-slate-400">Distribución de clientes por lote e infraestructura instalada</p>
               </div>
-            ))}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {NORLOG_CLIENTS.map((item, idx) => (
+                <div key={idx} className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded inline-block mb-3">
+                      {item.lote}
+                    </span>
+                    <ul className="space-y-2 mb-4">
+                      {item.clients.map((client, cIdx) => (
+                        <li key={cIdx} className="flex items-center space-x-2 text-sm font-semibold text-slate-100">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                          <span>{client}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <a
+                    href={getWhatsAppUrl(`Consulta sobre ${item.lote}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold py-2 rounded-lg flex items-center justify-center space-x-1.5 transition-colors text-center mt-2"
+                  >
+                    <span>Consultar Lote</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-slate-300" />
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -504,17 +564,6 @@ export default function Home() {
                 >
                   <Mail className="w-4 h-4 text-blue-500" />
                   <span>Indusnorconstruye@gmail.com</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://maps.google.com/?q=Parque+Industrial+Norlog+Buenos+Aires" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2.5 hover:text-blue-400 transition-colors"
-                >
-                  <MapPin className="w-4 h-4 text-blue-500" />
-                  <span>Parque Industrial Norlog, Buenos Aires</span>
                 </a>
               </li>
             </ul>
