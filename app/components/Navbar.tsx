@@ -26,7 +26,7 @@ export default function Navbar() {
     { name: "Contacto", href: "#contacto", id: "contacto" },
   ];
 
-  // Forzar inicio arriba de todo al recargar la página
+  // Forzar inicio arriba al recargar la página
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (window.location.hash) {
@@ -37,7 +37,7 @@ export default function Navbar() {
     }
   }, []);
 
-  // Detector de sección activa fluido mediante cálculo continuo de scroll
+  // Detector de sección activa continuo en tiempo real
   useEffect(() => {
     let ticking = false;
 
@@ -46,22 +46,22 @@ export default function Navbar() {
       const windowHeight = window.innerHeight;
       const fullHeight = document.documentElement.scrollHeight;
 
-      // 1. Si llegó al fondo absoluto de la página (Footer)
-      if (Math.ceil(scrollPosition + windowHeight) >= fullHeight - 20) {
+      // Si llegó al fondo absoluto de la página -> Contacto
+      if (Math.ceil(scrollPosition + windowHeight) >= fullHeight - 30) {
         setActiveSection("contacto");
         ticking = false;
         return;
       }
 
-      // 2. Si está en la parte superior del todo
+      // Si está arriba de todo -> Inicio
       if (scrollPosition < 80) {
         setActiveSection("inicio");
         ticking = false;
         return;
       }
 
-      // 3. Determinar qué sección abarca el centro de la pantalla
-      const viewportCenter = scrollPosition + windowHeight / 2.5;
+      // Evaluación del punto central del viewport
+      const targetPoint = scrollPosition + 150;
       const sectionIds = navLinks.map((link) => link.id);
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
@@ -69,7 +69,7 @@ export default function Navbar() {
         const element = document.getElementById(id);
         if (element) {
           const top = element.offsetTop;
-          if (viewportCenter >= top) {
+          if (targetPoint >= top - 20) {
             setActiveSection(id);
             break;
           }
@@ -87,7 +87,7 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    updateActiveSection(); // Ejecutar al cargar
+    updateActiveSection();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);

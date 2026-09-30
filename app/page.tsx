@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import { 
   Search, 
@@ -31,6 +31,58 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
     </svg>
+  );
+}
+
+function ProjectImageCarousel({ images, title }: { images?: string[]; title: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [images]);
+
+  if (!images || images.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center space-y-1 h-full text-slate-400">
+        <ImageIcon className="w-8 h-8 text-slate-400 mb-1" />
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Próximamente</span>
+        <span className="text-[11px] text-slate-400">Registro fotográfico en obra</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-full">
+      {images.map((img, idx) => (
+        <img
+          key={img}
+          src={img}
+          alt={`${title} - Imagen ${idx + 1}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+            idx === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+          }`}
+        />
+      ))}
+      
+      {images.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex space-x-1.5 bg-black/40 backdrop-blur-sm px-2 py-1 rounded-full">
+          {images.map((_, idx) => (
+            <span
+              key={idx}
+              className={`block h-1.5 rounded-full transition-all ${
+                idx === currentIndex ? "bg-white w-3" : "bg-white/50 w-1.5"
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -179,7 +231,10 @@ const PROJECTS = [
     category: "Obras y Entregas",
     date: "Reciente",
     description: "Montaje finalizado de niveladores de muelle de carga en nave logística dentro del Parque Industrial Norlog.",
-    image: ""
+    images: [
+      "/images/Entrega_Rampa_Hidraulica(1).png",
+      "/images/Entrega_Rampa_Hidraulica(2).png"
+    ]
   },
   {
     id: 2,
@@ -187,7 +242,10 @@ const PROJECTS = [
     category: "Instalaciones",
     date: "Reciente",
     description: "Instalación de cerramientos térmicos automatizados para optimización del flujo logístico de mercadería.",
-    image: ""
+    images: [
+      "/images/Intalacion_Puertas(1).png",
+      "/images/Intalacion_Puertas(2).png"
+    ]
   },
   {
     id: 3,
@@ -195,7 +253,7 @@ const PROJECTS = [
     category: "Sistemas de Seguridad",
     date: "Reciente",
     description: "Pruebas de presión y montajes de acoples ranurados junto a rociadores Victaulic para certificación industrial.",
-    image: ""
+    images: []
   }
 ];
 
@@ -461,17 +519,9 @@ export default function Home() {
           {PROJECTS.map((project) => (
             <div key={project.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between">
               <div>
-                <div className="h-52 bg-slate-100 relative overflow-hidden flex flex-col items-center justify-center p-4 border-b border-slate-200 text-slate-400">
-                  {project.image ? (
-                    <img src={project.image} alt={project.title} className="max-h-full max-w-full object-contain" />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center text-center space-y-1">
-                      <ImageIcon className="w-8 h-8 text-slate-400 mb-1" />
-                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Próximamente</span>
-                      <span className="text-[11px] text-slate-400">Registro fotográfico en obra</span>
-                    </div>
-                  )}
-                  <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-white/95 px-2 py-0.5 rounded shadow-sm border border-slate-200">
+                <div className="h-56 bg-slate-900 relative overflow-hidden flex flex-col items-center justify-center border-b border-slate-200">
+                  <ProjectImageCarousel images={project.images} title={project.title} />
+                  <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-white/95 px-2 py-0.5 rounded shadow-sm border border-slate-200 z-20">
                     {project.category}
                   </span>
                 </div>
@@ -497,7 +547,7 @@ export default function Home() {
       </section>
 
       {/* SECCIÓN CLIENTES */}
-      <section id="clientes" className="py-28 sm:py-36 min-h-[70vh] flex flex-col justify-center bg-white border-t border-slate-200">
+      <section id="clientes" className="py-24 sm:py-32 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="mb-10">
             <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Confianza y Trayectoria</span>
