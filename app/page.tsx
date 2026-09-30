@@ -105,7 +105,7 @@ const NAVES = [
     lote: "Lote 17",
     title: "Nave Industrial - Lote 17",
     location: "Parque Plataforma Logística Norlog, Tigre",
-    surface: "XX m² cubiertos",
+    surface: "12.000m² cubiertos",
     description: "Nave logística de última generación con altura libre de 12m, portones seccionales automáticos y abrigos de muelle integrados.",
     features: [
       "Pisos de hormigón con fibra sintética de alta resistencia",
@@ -120,7 +120,7 @@ const NAVES = [
     lote: "Lote 33",
     title: "Nave Centro Logístico - Lote 33",
     location: "Parque Plataforma Logística Norlog, Tigre",
-    surface: "XX m² cubiertos",
+    surface: "8.500m² cubiertos",
     description: "Diseñada para logística pesada y almacenamiento de gran escala. Cuenta con amplias playas de maniobra y seguridad 24 hs.",
     features: [
       "Estructura metálica reticulada de gran luz libre",
@@ -135,7 +135,7 @@ const NAVES = [
     lote: "Lote 34",
     title: "Nave Industrial - Lote 34",
     location: "Parque Plataforma Logística Norlog, Tigre",
-    surface: "XX m² cubiertos",
+    surface: "9.000m² cubiertos",
     description: "Infraestructura moderna para almacenamiento y distribución con andenes equipados y máxima flexibilidad operativa.",
     features: [
       "Cerramientos herméticos y aislamiento térmico",
@@ -149,7 +149,20 @@ const NAVES = [
     lote: "Lote 15",
     title: "Nave Industrial - Lote 15",
     location: "Parque Plataforma Logística Norlog, Tigre",
-    surface: "XX m² cubiertos",
+    surface: "7.500m² cubiertos",
+    description: "Unidad logística optimizada para operaciones operativas de alta exigencia y conectividad estratégica.",
+    features: [
+      "Estructura metálica de alta resistencia",
+      "Facilidad para carga y descarga simultánea"
+    ],
+    image: ""
+  },
+  {
+    id: 5,
+    lote: "Lote 16",
+    title: "Nave Industrial - Lote 16",
+    location: "Parque Plataforma Logística Norlog, Tigre",
+    surface: "10.000m² cubiertos",
     description: "Unidad logística optimizada para operaciones operativas de alta exigencia y conectividad estratégica.",
     features: [
       "Estructura metálica de alta resistencia",
