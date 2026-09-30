@@ -232,8 +232,8 @@ const PROJECTS = [
     date: "Reciente",
     description: "Montaje finalizado de niveladores de muelle de carga en nave logística dentro del Parque Industrial Norlog.",
     images: [
-      "/images/Entrega_Rampa_Hidraulica(1).png",
-      "/images/Entrega_Rampa_Hidraulica(2).png"
+      "/images/Entrega_Rampa_Hidraulica(1).jpeg",
+      "/images/Entrega_Rampa_Hidraulica(2).jpeg"
     ]
   },
   {
@@ -243,8 +243,8 @@ const PROJECTS = [
     date: "Reciente",
     description: "Instalación de cerramientos térmicos automatizados para optimización del flujo logístico de mercadería.",
     images: [
-      "/images/Intalacion_Puertas(1).png",
-      "/images/Intalacion_Puertas(2).png"
+      "/images/Intalacion_Puertas(1).jpeg",
+      "/images/Intalacion_Puertas(2).jpeg"
     ]
   },
   {
